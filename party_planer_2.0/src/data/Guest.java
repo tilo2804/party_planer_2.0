@@ -1,18 +1,18 @@
 package data;
 
 import java.awt.Point;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class Guest {
 
 	private String name, job;
 	private Point position;
-	private Set<Point> posHistory;
-	private Map<Guest, Float> distances;
-	private Float mood;
-	private Set<Float> moodHistory;
+	private HashSet<Point> posHistory = new HashSet<Point>();
+	private HashMap<Guest, Float> distances = new HashMap<Guest, Float>();
+	private Float mood = (float)0;
+	private HashSet<Float> moodHistory = new HashSet<Float>();;
+	
 	
 	public Guest(String name, String job) {
 				this.name = name;
@@ -65,7 +65,7 @@ public class Guest {
 	/**
 	 * @return the posHistory
 	 */
-	public Set<Point> getPosHistory() {
+	public HashSet<Point> getPosHistory() {
 		return posHistory;
 	}
 
@@ -107,7 +107,7 @@ public class Guest {
 	/**
 	 * @return the moodHistory
 	 */
-	public Set<Float> getMoodHistory() {
+	public HashSet<Float> getMoodHistory() {
 		return moodHistory;
 	}
 }

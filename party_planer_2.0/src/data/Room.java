@@ -1,12 +1,12 @@
 package data;
 
 import java.awt.Point;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 public class Room {
 
-	private Set<Table> tables;
+	private HashSet<Table> tables = new HashSet<Table>();
 	private Integer length, height; //Bsp. wenn Länge = 10 dann ist x im Intervall 0 <= x <= 9
 	
 	public Room(Integer length, Integer height) {
@@ -22,9 +22,11 @@ public class Room {
 		if(position.getX() > (length - 1)) res = false;
 		if(position.getY() > (height -1)) res = false;
 		
-		Iterator<Table> tablesIterator = tables.iterator();
-		for(int i = 0; i < tables.size(); i++) {
-			if (tablesIterator.next().getAllPoints().contains(position)) res = false;
+		if(!tables.equals(null)){
+			Iterator<Table> tablesIterator = tables.iterator();
+			for(int i = 0; i < tables.size(); i++) {
+				if (tablesIterator.next().getAllPoints().contains(position)) res = false;
+			}
 		}
 		
 		return res;
@@ -33,7 +35,7 @@ public class Room {
 	/**
 	 * @return the tables
 	 */
-	public Set<Table> getTables() {
+	public HashSet<Table> getTables() {
 		return tables;
 	}
 	

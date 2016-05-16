@@ -8,7 +8,7 @@ import data.Room;
 
 public class Speicher {
 
-	private HashSet<Guest> guestList;
+	private HashSet<Guest> guestList = new HashSet<Guest>();
 	private Room room;
 	private Configuration config;
 

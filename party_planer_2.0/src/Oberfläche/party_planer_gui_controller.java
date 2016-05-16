@@ -1,40 +1,81 @@
 package Oberfl�che;
 
+import java.awt.Point;
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
 
 import Simulation.Simulation;
 import Speicher.Speicher;
+import data.Configuration;
+import data.Guest;
 import data.Room;
-
+import data.Table;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 
 public class party_planer_gui_controller {
 	
-	@FXML Button buttonStart;
-	@FXML Button buttonPause;
-	@FXML Button buttonStopp;
-	@FXML Button buttonNextStep;
-	@FXML Button buttonNextIteration;
+	@FXML private Button startSimulationButton;
+	@FXML private Button stoppSimulationButton;
+	@FXML private Button pauseSimulationButton;
+	@FXML private Button nextIterationButton;
+	@FXML private Button nextStepButton;
+	
+	@FXML private Button addTableButton;
+	@FXML private Button addGuestButton;
+	@FXML private Button saveConfigButton;
+	
+    @FXML private TextField roomLengthField;
+    @FXML private TextField tableHeightField;
+    @FXML private TextField simulationIterationsField;
+    @FXML private TextField guestJobField;
+    @FXML private TextField guestNameField;
+    @FXML private TextField tablePosXField;
+    @FXML private TextField tablePosYField;
+    @FXML private TextField tableLengthField;
+    @FXML private TextField roomHeightField;
+    @FXML private TextField simulationSpeedField;
+	    
+    @FXML private TableView<Guest> distanceMatrixTable;
+	
+    @FXML private Tab configurationTab;
+    @FXML private Tab simulationTab;
 
-    @FXML StackPane main;
-    @FXML GridPane zimmerGrid;
-    @FXML ListView legende;
-    @FXML VBox rightBox;
-
-    @FXML Tab configurationTab;
-    @FXML Tab disabledTab;
+    @FXML private GridPane zimmerGrid;
+    @FXML private Button nextStep;
+    @FXML private StackPane main;
+    
+    @FXML private TableView<Guest> legende;
+    @FXML private TableColumn<Guest, String> nameColumn;
+    @FXML private TableColumn<Guest, Integer> moodColumn;
 
     // TODO: get room size from config
-    final int roomWidth = 600; // Zimmerlänge
+    final int roomWidth = 800; // Zimmerlänge
     final int roomHeight = 400; // Zimmerhöhe
     final int squareSize = 40; // Zellgröße
 
@@ -49,20 +90,58 @@ public class party_planer_gui_controller {
     final int tablePosX = 5;
     final int tablePosY = 4;  
     
-    Speicher speicher;
-    Simulation simulation;
+    private Speicher speicher;
+    private Simulation simulation;
     
     public party_planer_gui_controller(Stage primaryStage) {
     	Scene scene = initScene();
-    	showScene(primaryStage, scene);
+    	configureActions();
     	Room room = new Room(15, 10);
     	speicher = new Speicher(room);
         simulation = new Simulation(speicher,this);
+
         drawSquares();
+        drawGuests();
+        drawTable();
+        drawLegend();
+        
+        
+        showScene(primaryStage, scene);
+        distanceMatrixTable.setEditable(true);
+        
     }
     
-    public void refresh() {
+    private void refreshMatrix() {
+    	ObservableList<Guest> legendItems = FXCollections.observableArrayList();
+    	Iterator<Guest> helpIterator = speicher.getGuestList().iterator();
+    	Guest helpGuest;
+    	String name;
+    	distanceMatrixTable.getColumns().clear();
+    	TableColumn newTableColumn = new TableColumn<Guest, String>();
+        newTableColumn.setCellValueFactory(new PropertyValueFactory<Guest, String>("name"));
+        distanceMatrixTable.getColumns().add(newTableColumn);
     	
+        for (int i = 0; i < speicher.getGuestList().size(); i++) {
+            helpGuest = helpIterator.next();
+            legendItems.add(helpGuest);
+            newTableColumn = new TableColumn<Guest, Integer>();
+            newTableColumn.setText(helpGuest.getName());
+            newTableColumn.setEditable(true);
+            newTableColumn.setCellFactory(TextFieldTableCell.<Integer>forTableColumn());
+            distanceMatrixTable.getColumns().add(newTableColumn);
+            distanceMatrixTable.getColumns().get(distanceMatrixTable.getColumns().size()-1).setEditable(true);
+        }
+           
+        distanceMatrixTable.setItems(legendItems);
+        
+        distanceMatrixTable.setPrefWidth(rightColumnWidth);
+    }
+   
+    public void refresh() {
+    	drawSquares();
+        drawGuests();
+        drawTable();
+        drawLegend();
     }
 
     /**
@@ -82,6 +161,7 @@ public class party_planer_gui_controller {
 		try {
 			root = loader.load();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return new Scene(root, width, height);
@@ -125,7 +205,7 @@ public class party_planer_gui_controller {
         // add squares to the room
         for (int col = 0; col < roomWidth/squareSize; col++) {
             for (int row = 0; row < roomHeight/squareSize; row++) {
-                Pane square = drawRoomSquare("empty");
+            	Pane square = drawRoomSquare("empty");
                 zimmerGrid.add(square, col, row);
 
             }
@@ -139,7 +219,7 @@ public class party_planer_gui_controller {
      * @return Pane with CSS-class
      */
     protected Pane drawRoomSquare(String squareType) {
-        Pane square = new Pane();
+    	Pane square = new Pane();
         square.getStyleClass().addAll("room-square", "square-"+squareType);
         return square;
     }
@@ -161,42 +241,54 @@ public class party_planer_gui_controller {
     /**
      * Create guests-squares in the room
      */
- /*   protected void drawGuests() {
-        // add the guests to the squares
-        for (int i = 0; i < guests.length; i++) {
-            // get the current guests's data
-            int guestPosX = (int)guests[i][2];
-            int guestPosY = (int)guests[i][3];
-            String guestLetter = guests[i][0].toString().substring(0, 1);
-            // create a new square with background and letter
+    protected void drawGuests() {
+        // add the guests to the squares#
+    	Iterator<Guest> helpIterator = speicher.getGuestList().iterator();
+    	Guest helpGuest;
+        
+    	for (int i = 0; i < speicher.getGuestList().size(); i++) {
+    		
+    		helpGuest = helpIterator.next();
+        	
+            int guestPosX = (int) helpGuest.getPosition().getX();
+            int guestPosY = (int) helpGuest.getPosition().getY();
+            
+            String guestLetter = helpGuest.getName().substring(0, 1);
+
             Pane square = drawRoomSquare("guest");
             Label letter = createRoomLetter(guestLetter, "guest");
-            // add to the room the square and the guests's letter
+
             zimmerGrid.add(square, guestPosX, guestPosY);
             zimmerGrid.add(letter, guestPosX, guestPosY);
-            // align the letter in center
+
             zimmerGrid.setHalignment(letter, HPos.CENTER);
         }
     }
-*/
+
     /**
      * Add a legend with guests names
      */
- /*   protected void drawLegend() {
-        ObservableList<String> legendItems = FXCollections.observableArrayList();
-
-        for (int i = 0; i < guests.length; i++) {
-            String name = guests[i][0].toString();
-            String text = name.substring(0, 1) + ": " + name;
-            legendItems.add(text);
+    protected void drawLegend() {
+    	
+    	ObservableList<Guest> legendItems = FXCollections.observableArrayList();
+    	Iterator<Guest> helpIterator = speicher.getGuestList().iterator();
+    	Guest helpGuest;
+    	String name, mood;
+    	
+        for (int i = 0; i < speicher.getGuestList().size(); i++) {
+            helpGuest = helpIterator.next();
+            legendItems.add(helpGuest);
         }
 
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Guest, String>("name"));
+        moodColumn.setCellValueFactory(new PropertyValueFactory<Guest, Integer>("mood"));
+        
         legende.setItems(legendItems);
 
-        rightBox.setPrefWidth(rightColumnWidth);
+        legende.setPrefWidth(rightColumnWidth);
     }
 
-*/
+
     /**
      * Create table-squares in the room
      */
@@ -206,7 +298,7 @@ public class party_planer_gui_controller {
             for (int y = tablePosY; y < tablePosY+tableHeight; y++)
             {
                 // create a new square with background and text
-                Pane square = drawRoomSquare("table");
+            	Pane square = drawRoomSquare("table");
                 Label letter = createRoomLetter("T", "table");
                 // add to the room the square and the guests's letter
                 zimmerGrid.add(square, x, y);
@@ -217,24 +309,98 @@ public class party_planer_gui_controller {
         }
     }
 
-    @FXML private void buttonStartAction(ActionEvent event) {
-    	simulation.startSimulation();
+    private void configureActions() {
+    	
+    	startSimulationButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+    		public void handle(MouseEvent event) {
+    			simulation.startSimulation();
+    		}
+    	});
+    	
+    	pauseSimulationButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+    		public void handle(MouseEvent event) {
+    			simulation.pauseSimulation();
+    		}
+    	});
+    	
+    	stoppSimulationButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+    		public void handle(MouseEvent event) {
+    			simulation.stopSimulation();
+    		}
+    	});
+    	
+    	nextIterationButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+    		public void handle(MouseEvent event) {
+    			simulation.nextIteration();
+    		}
+    	});
+    	
+    	nextStepButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+    		public void handle(MouseEvent event) {
+    			simulation.nextGuest();
+    		}
+    	});
+    	
+    	addTableButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+    		public void handle(MouseEvent event) {
+    			try {
+    				Integer length =  Integer.valueOf(tableLengthField.getText());
+    				try {
+        				Integer height = Integer.valueOf(tableHeightField.getText());
+        				try {
+            				Integer posX = Integer.valueOf(tablePosXField.getText());
+            				try {
+                				Integer posY = Integer.valueOf(tablePosYField.getText());
+                				speicher.getRoom().setTable(new Table(length, height, new Point(posX, posY)));
+                			} catch(Exception e) {
+                				tablePosYField.setText("fehlerhafte Eingabe");
+                			}
+            			} catch(Exception e) {
+            				tablePosXField.setText("fehlerhafte Eingabe");
+            			}
+        			} catch(Exception e) {
+        				tableHeightField.setText("fehlerhafte Eingabe");
+        			}
+    			} catch(Exception e) {
+    				tableLengthField.setText("fehlerhafte Eingabe");
+    			}
+    		}
+    	});
+    	
+    	addGuestButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+    		public void handle(MouseEvent event) {
+    			if(guestNameField.getText().isEmpty()) guestNameField.setText("fehlende Eingabe");
+    			else if(guestJobField.getText().isEmpty()) guestJobField.setText("fehlende Eingabe");
+    			else {
+    				speicher.getGuestList().add(new Guest(guestNameField.getText(),guestJobField.getText()));
+    				refreshMatrix();
+    				drawLegend();
+    			}
+    		}
+    	});
+    	
+    	saveConfigButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+    		public void handle(MouseEvent event) {
+    			
+    			Iterator<Guest> Iterator = speicher.getGuestList().iterator();
+    			Iterator<Guest> helpIterator = speicher.getGuestList().iterator();
+    			Guest helpGuest;
+    			
+    			for (int i = 0; i < speicher.getGuestList().size(); i++) {
+    	            helpGuest = Iterator.next();
+    	            for (int j = 0; j < speicher.getGuestList().size(); j++) {
+    	            	Guest guest = helpIterator.next();
+    	            	TableColumn test = distanceMatrixTable.getColumns().get(j+1);
+    	            	helpGuest.setDistances(guest, (float) distanceMatrixTable.getColumns().get(j+1).getCellData(i));
+    	            	System.out.println("Gast " + helpGuest + " distance " + helpGuest.getDistance(guest));
+        	        };
+        	        helpIterator = speicher.getGuestList().iterator();
+    	        };
+    			
+    		}
+    	});
+    	
+    	
     }
-
-    @FXML private void buttonPauseAction(ActionEvent event) {
-    	simulation.pauseSimulation();
-    }
-
-    @FXML private void buttonStopAction(ActionEvent event) {
-    	simulation.stopSimulation();
-    }
-
-    @FXML private void buttonNextIterationAction(ActionEvent event) {
-    	simulation.nextIteration();
-    }
-
-    @FXML private void buttonNextStepAction(ActionEvent event) {
-    	simulation.nextGuest();
-    }
-
+    
 }
