@@ -39,24 +39,31 @@
                         <Text layoutX="272.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Anzahl der Felder auf Y-Achse" />
                         <Text layoutX="25.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Raum:" />
                         <Text layoutX="25.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation:" />
-                        <TextField fx:id="tableLengthField" layoutX="25.0" layoutY="216.0" />
-                        <TextField fx:id="tableHeightField" layoutX="272.0" layoutY="216.0" />
-                        <Text layoutX="25.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tisch:" />
-                        <Text layoutX="25.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tischlänge (Anzahl der Felder auf X-Achse)" />
-                        <Text layoutX="272.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tischbreite (Anzahl der Felder auf Y-Achse)" />
-                        <Button fx:id="addTableButton" layoutX="457.0" layoutY="278.0" mnemonicParsing="false" text="Tisch hinzufügen" />
-                        <TextField fx:id="tablePosXField" layoutX="25.0" layoutY="279.0" />
-                        <TextField fx:id="tablePosYField" layoutX="272.0" layoutY="279.0" />
-                        <Text layoutX="25.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tischposition (X-Koordinate)" />
-                        <Text layoutX="272.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tischposition (Y-Koordinate)" />
-                        <Button fx:id="saveConfigButton" layoutX="164.0" layoutY="412.0" mnemonicParsing="false" text="Konfiguration speichern" />
-                        <TextField fx:id="guestNameField" layoutX="25.0" layoutY="353.0" />
-                        <TextField fx:id="guestJobField" layoutX="272.0" layoutY="353.0" />
-                        <Text layoutX="25.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gast:" />
-                        <Text layoutX="25.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
-                        <Text layoutX="272.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beruf" />
-                        <Button fx:id="addGuestButton" layoutX="459.0" layoutY="352.0" mnemonicParsing="false" text="Gast hinzufügen" />
-                        <TableView fx:id="distanceMatrixTable" editable="true" layoutX="617.0" layoutY="36.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="407.0" prefWidth="435.0" />
+                        <TextField fx:id="tableLengthField" layoutX="466.0" layoutY="52.0" />
+                        <TextField fx:id="tableHeightField" layoutX="713.0" layoutY="52.0" />
+                        <Text layoutX="466.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tisch:" />
+                        <Text layoutX="466.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tischlänge (Anzahl der Felder auf X-Achse)" />
+                        <Text layoutX="713.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tischbreite (Anzahl der Felder auf Y-Achse)" />
+                        <Button fx:id="addTableButton" layoutX="888.0" layoutY="131.0" mnemonicParsing="false" text="Tisch hinzufügen" />
+                        <TextField fx:id="tablePosXField" layoutX="466.0" layoutY="132.0" />
+                        <TextField fx:id="tablePosYField" layoutX="713.0" layoutY="132.0" />
+                        <Text layoutX="466.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tischposition (X-Koordinate)" />
+                        <Text layoutX="713.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tischposition (Y-Koordinate)" />
+                        <Button fx:id="saveConfigButton" layoutX="35.0" layoutY="376.0" mnemonicParsing="false" text="Konfiguration speichern" />
+                        <TextField fx:id="guestNameField" layoutX="25.0" layoutY="215.0" />
+                        <TextField fx:id="guestJobField" layoutX="272.0" layoutY="215.0" />
+                        <Text layoutX="25.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gast:" />
+                        <Text layoutX="25.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
+                        <Text layoutX="272.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beruf" />
+                        <Button fx:id="addGuestButton" layoutX="554.0" layoutY="214.0" mnemonicParsing="false" text="Gast hinzufügen" />
+                        <Text fx:id="guestText" layoutX="39.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Guest" wrappingWidth="88.45703125" />
+                        <Text fx:id="helpGuestText" layoutX="224.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="helpGuest" wrappingWidth="123.484375" />
+                        <TextField fx:id="distanceField" layoutX="131.0" layoutY="291.0" prefHeight="30.0" prefWidth="82.0" />
+                        <Text layoutX="128.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wunschabstand" />
+                        <Button layoutX="35.0" layoutY="329.0" mnemonicParsing="false" text="Wunschabstand speichern" />
+                        <TextField layoutX="464.0" layoutY="215.0" prefHeight="30.0" prefWidth="29.0" promptText="X" fx:id="xPosField" />
+                        <TextField fx:id="yPosField" layoutX="503.0" layoutY="215.0" prefHeight="30.0" prefWidth="30.0" promptText="Y" />
+                        <Text layoutX="464.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Startposition" />
                      </children>
                   </Pane>
                </content>
