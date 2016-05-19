@@ -29,41 +29,43 @@
                <content>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="simulationSpeedField" layoutX="25.0" layoutY="51.0" />
-                        <TextField fx:id="simulationIterationsField" layoutX="272.0" layoutY="50.0" />
+                        <TextField fx:id="simulationSpeedField" layoutX="25.0" layoutY="51.0" text="500" />
+                        <TextField fx:id="simulationIterationsField" layoutX="272.0" layoutY="50.0" text="20" />
                         <Text layoutX="25.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Geschwindigkeit (in ms)" />
                         <Text layoutX="272.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Anzahl der Durchläufe" />
-                        <TextField fx:id="roomLengthField" layoutX="25.0" layoutY="132.0" />
-                        <TextField fx:id="roomHeightField" layoutX="272.0" layoutY="131.0" />
+                        <TextField fx:id="roomLengthField" layoutX="25.0" layoutY="132.0" text="10" />
+                        <TextField fx:id="roomHeightField" layoutX="272.0" layoutY="131.0" text="10" />
                         <Text layoutX="25.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Anazhl der Felder auf X-Achse" />
                         <Text layoutX="272.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Anzahl der Felder auf Y-Achse" />
                         <Text layoutX="25.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Raum:" />
                         <Text layoutX="25.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation:" />
-                        <TextField fx:id="tableLengthField" layoutX="466.0" layoutY="52.0" />
-                        <TextField fx:id="tableHeightField" layoutX="713.0" layoutY="52.0" />
+                        <TextField fx:id="tableLengthField" layoutX="466.0" layoutY="52.0" text="2" />
+                        <TextField fx:id="tableHeightField" layoutX="713.0" layoutY="52.0" text="2" />
                         <Text layoutX="466.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tisch:" />
                         <Text layoutX="466.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tischlänge (Anzahl der Felder auf X-Achse)" />
                         <Text layoutX="713.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tischbreite (Anzahl der Felder auf Y-Achse)" />
-                        <Button fx:id="addTableButton" layoutX="888.0" layoutY="131.0" mnemonicParsing="false" text="Tisch hinzufügen" />
-                        <TextField fx:id="tablePosXField" layoutX="466.0" layoutY="132.0" />
-                        <TextField fx:id="tablePosYField" layoutX="713.0" layoutY="132.0" />
+                        <Button fx:id="addTableButton" disable="true" layoutX="888.0" layoutY="131.0" mnemonicParsing="false" text="Tisch hinzufügen" />
+                        <TextField fx:id="tablePosXField" layoutX="466.0" layoutY="132.0" text="2" />
+                        <TextField fx:id="tablePosYField" layoutX="713.0" layoutY="132.0" text="2" />
                         <Text layoutX="466.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tischposition (X-Koordinate)" />
                         <Text layoutX="713.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tischposition (Y-Koordinate)" />
-                        <Button fx:id="saveConfigButton" layoutX="35.0" layoutY="376.0" mnemonicParsing="false" text="Konfiguration speichern" />
+                        <Button fx:id="saveConfigButton" disable="true" layoutX="35.0" layoutY="376.0" mnemonicParsing="false" text="Konfiguration speichern" />
                         <TextField fx:id="guestNameField" layoutX="25.0" layoutY="215.0" />
                         <TextField fx:id="guestJobField" layoutX="272.0" layoutY="215.0" />
                         <Text layoutX="25.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gast:" />
                         <Text layoutX="25.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
                         <Text layoutX="272.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beruf" />
-                        <Button fx:id="addGuestButton" layoutX="554.0" layoutY="214.0" mnemonicParsing="false" text="Gast hinzufügen" />
+                        <Button fx:id="addGuestButton" disable="true" layoutX="554.0" layoutY="214.0" mnemonicParsing="false" text="Gast hinzufügen" />
                         <Text fx:id="guestText" layoutX="39.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Guest" wrappingWidth="88.45703125" />
                         <Text fx:id="helpGuestText" layoutX="224.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="helpGuest" wrappingWidth="123.484375" />
                         <TextField fx:id="distanceField" layoutX="131.0" layoutY="291.0" prefHeight="30.0" prefWidth="82.0" />
                         <Text layoutX="128.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wunschabstand" />
-                        <Button layoutX="35.0" layoutY="329.0" mnemonicParsing="false" text="Wunschabstand speichern" />
+                        <Button fx:id="saveDistanceButton" disable="true" layoutX="35.0" layoutY="329.0" mnemonicParsing="false" text="Wunschabstand speichern" />
                         <TextField layoutX="464.0" layoutY="215.0" prefHeight="30.0" prefWidth="29.0" promptText="X" fx:id="xPosField" />
                         <TextField fx:id="yPosField" layoutX="503.0" layoutY="215.0" prefHeight="30.0" prefWidth="30.0" promptText="Y" />
                         <Text layoutX="464.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Startposition" />
+                        <Button fx:id="guestListfinishedButton" disable="true" layoutX="691.0" layoutY="214.0" mnemonicParsing="false" text="Gästeliste fertig" />
+                        <Button fx:id="saveRoomButton" layoutX="328.0" layoutY="162.0" mnemonicParsing="false" text="speichere Raum" />
                      </children>
                   </Pane>
                </content>
@@ -80,6 +82,8 @@
                               <Button fx:id="pauseSimulationButton" mnemonicParsing="false" text="Pause" />
                               <Button fx:id="nextIterationButton" mnemonicParsing="false" text="Nächste Iteration" />
                               <Button fx:id="nextStepButton" mnemonicParsing="false" text="Nächste Aktion" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Party Index" />
+                              <Text fx:id="indexText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                           </items>
                         </ToolBar>
                      </bottom>

@@ -24,8 +24,14 @@ public class Room {
 		
 		if(!tables.equals(null)){
 			Iterator<Table> tablesIterator = tables.iterator();
+			Iterator<Point> positionIterator;
 			for(int i = 0; i < tables.size(); i++) {
-				if (tablesIterator.next().getAllPoints().contains(position)) res = false;
+				positionIterator = tablesIterator.next().getAllPoints().iterator();
+				while(positionIterator.hasNext()) {
+					Point helpPoint = positionIterator.next();
+					if (helpPoint.distanceSq(position)==(double)0) res = false; //else System.out.println("help: " + helpPoint.getX() + "  " + helpPoint.getY() + "    position:" + position.getX() + " " + position.getY());
+				}
+				
 			}
 		}
 		

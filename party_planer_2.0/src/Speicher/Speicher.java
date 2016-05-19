@@ -1,6 +1,8 @@
 package Speicher;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import data.Configuration;
 import data.Guest;
@@ -11,6 +13,7 @@ public class Speicher {
 	private HashSet<Guest> guestList = new HashSet<Guest>();
 	private Room room;
 	private Configuration config;
+	private ArrayList<Float> partyIndex = new ArrayList<Float>();
 
 	public Speicher(Room room){
 		this.room = room;
@@ -49,4 +52,16 @@ public class Speicher {
 	public void setConfig(Configuration config) {
 		this.config = config;
 	}
+	
+	public void setPartyIndex(Float currentPartyIndex) {
+		partyIndex.add(currentPartyIndex);
+	}
+	
+	public Float getCurrentPartyIndex() {
+		Iterator<Float> helpIterator = partyIndex.iterator();
+		Float res = (float)0;
+		while (helpIterator.hasNext()) res = res + helpIterator.next();
+		return res/partyIndex.size();
+	}
+	
 }
